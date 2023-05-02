@@ -25,10 +25,9 @@ class RowWrapper extends InheritedWidget {
 class _SelectRow extends StatelessWidget {
   final Function(bool) onChange;
   final bool selected;
-  final Widget textWidget;
+  final String text;
 
-  const _SelectRow(
-      {Key? key, required this.onChange, required this.selected, required this.textWidget})
+  const _SelectRow({Key? key, required this.onChange, required this.selected, required this.text})
       : super(key: key);
 
   @override
@@ -49,7 +48,12 @@ class _SelectRow extends StatelessWidget {
                   _theState.notify();
                 }),
             Expanded(
-              child: textWidget,
+              child: Text(
+                text,
+                softWrap: false,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
@@ -173,12 +177,7 @@ class _DropDownMultiSelectState<TState> extends State<DropDownMultiSelect<TState
                             ? widget.menuItembuilder!(x)
                             : _SelectRow(
                                 selected: widget.selectedValues.contains(x),
-                                textWidget: Text(
-                                  x.toString(),
-                                  softWrap: false,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                text: x.toString(),
                                 onChange: (isSelected) {
                                   if (isSelected) {
                                     var ns = widget.selectedValues;
